@@ -44,18 +44,32 @@ post "/" do
     response = ""
   end
   status 200
-  body json_response_for_slack(response)
+  # body json_response_for_slack(response)
+  post_response(response)
 end
 
 # Puts together the json payload that needs to be sent back to Slack
 # 
-def json_response_for_slack(reply)
+
+def post_response(reply)
+  webhook = ENV["WEBHOOK_URL"] unless ENV["WEBHOOK_URL"].nil?
   response = { text: reply, link_names: 1 }
   response[:username] = ENV["BOT_USERNAME"] unless ENV["BOT_USERNAME"].nil?
   response[:icon_emoji] = ENV["BOT_ICON"] unless ENV["BOT_ICON"].nil?
   response[:channel_name] = ENV["CHANNEL"] unless ENV["CHANNEL"].nil?
   response.to_json
+  payload = "payload=#{response}"
+  puts "[LOG] [PAYLOAD] #{payload}"
+  post(webhook, body: payload)
 end
+
+# def json_response_for_slack(reply)
+#   response = { text: reply, link_names: 1 }
+#   response[:username] = ENV["BOT_USERNAME"] unless ENV["BOT_USERNAME"].nil?
+#   response[:icon_emoji] = ENV["BOT_ICON"] unless ENV["BOT_ICON"].nil?
+#   response[:channel_name] = ENV["CHANNEL"] unless ENV["CHANNEL"].nil?
+#   response.to_json
+# end
 
 def track_talk
   channel = @params[:channel_name]
