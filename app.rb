@@ -4,8 +4,6 @@ require "json"
 require "httparty"
 require "redis"
 require "dotenv"
-require "text"
-require "sanitize"
 
 configure do
   # Load .env vars
