@@ -38,7 +38,7 @@ post "/" do
   @params = params
   begin
     puts "[LOG] #{params}"
-    track_talk
+    response = track_talk
   rescue => e
     puts "[ERROR] #{e}"
     response = ""
