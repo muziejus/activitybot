@@ -69,11 +69,11 @@ end
 def log_talk
   key = "#{@params[:channel_name]}:talk"
   user = @params[:user_name]
-  ENV["NUMBER_OF_CHATTERS"].nil? ? crowd = 3 : crowd = ENV["NUMBER_OF_CHATTERS"]
+  ENV["NUMBER_OF_CHATTERS"].nil? ? crowd = 3 : crowd = ENV["NUMBER_OF_CHATTERS"].to_i
   ENV["MINUTES"].nil? ? minutes = 2 * 60 : minutes = ENV["MINUTES"].to_i * 60
   if $redis.exists key # has someone recently spoken?
     unless $redis.sismember key, user # and are they repeating themselves?
-      puts "[LOG] [SADD] [EXPIRE] adding #{user} the list of people talking and extending time to live."
+      puts "[LOG] [SADD] [EXPIRE] adding #{user} the list of people talking and extending time to live by #{minutes} seconds, which is a #{minutes.class}."
       $redis.sadd key, user
       $redis.expire key, minutes # If I want the activity to be recharged when a second person speaks
       unless $redis.smembers(key).length < crowd # uh-oh, we have a crowd!
