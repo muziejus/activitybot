@@ -60,7 +60,7 @@ end
 def track_talk
   channel = @params[:channel_name]
   if active? channel
-    puts "[LOG] channel #{channel} is still active and will be for #{($redis.ttl "#{channel}:lock")/60} minutes." 
+    puts "[LOG] [TTL] channel #{channel} is still active and will be for #{($redis.ttl "#{channel}:lock")/60} minutes." 
   else
     log_talk
   end
@@ -73,7 +73,7 @@ def log_talk
   ENV["MINUTES"].nil? ? minutes = 2 * 60 : minutes = ENV["MINUTES"].to_i * 60
   if $redis.exists key # has someone recently spoken?
     unless $redis.sismember key, user # and are they repeating themselves?
-      puts "[LOG] adding #{user} the list of people talking."
+      puts "[LOG] [SADD] adding #{user} the list of people talking."
       $redis.sadd key, user
       # $redis.expire key, minutes # If I want the activity to be recharged when a second person speaks. Kind of think no.
       unless $redis.smembers(key).length < crowd # uh-oh, we have a crowd!
@@ -83,7 +83,7 @@ def log_talk
   else # let's make a note that someone is speaking.
     $redis.sadd key, user
     $redis.expire key, minutes 
-    puts "[LOG] established that #{user} is speaking, possibly alone, in #{@params[:channel_name]}."
+    puts "[LOG] [SADD] established that #{user} is speaking, possibly alone, in #{@params[:channel_name]}."
   end
 end
 
@@ -99,6 +99,6 @@ def activate(channel)
   ENV["WAIT_TIME"].nil? ? wait_time = 0 : wait_time = ENV["WAIT_TIME"].to_i * 60
   message = "#{channel} set as active at #{Time.now}"
   $redis.setex "#{channel}:lock", wait_time, message
-  puts "[LOG] #{message}"
+  puts "[LOG] [SETEX] #{message}"
   "There is some activity in ##{channel}’s bullpen!"
 end
