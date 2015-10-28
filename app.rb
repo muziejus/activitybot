@@ -53,7 +53,7 @@ def json_response_for_slack(reply)
   response = { text: reply, link_names: 1 }
   response[:username] = ENV["BOT_USERNAME"] unless ENV["BOT_USERNAME"].nil?
   response[:icon_emoji] = ENV["BOT_ICON"] unless ENV["BOT_ICON"].nil?
-  response[:channel] = ENV["CHANNEL"] unless ENV["CHANNEL"].nil?
+  response[:channel_name] = ENV["CHANNEL"] unless ENV["CHANNEL"].nil?
   response.to_json
 end
 
