@@ -45,7 +45,9 @@ post "/" do
   end
   status 200
   # body json_response_for_slack(response)
-  post_response(response)
+  unless response == ""
+    post_response(response)
+  end
 end
 
 # Puts together the json payload that needs to be sent back to Slack
@@ -57,7 +59,7 @@ def post_response(reply)
   response[:username] = ENV["BOT_USERNAME"] unless ENV["BOT_USERNAME"].nil?
   response[:icon_emoji] = ENV["BOT_ICON"] unless ENV["BOT_ICON"].nil?
   puts "[LOG] [WEBHOOK] #{response}"
-  HTTParty.post(webhook, body: response)
+  HTTParty.post(webhook, body: response.to_json)
   # response.to_json
   # payload = "payload=#{response}"
   # puts "[LOG] [PAYLOAD] #{payload}"
