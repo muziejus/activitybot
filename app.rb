@@ -56,11 +56,12 @@ def post_response(reply)
   response = { text: reply, link_names: 1 }
   response[:username] = ENV["BOT_USERNAME"] unless ENV["BOT_USERNAME"].nil?
   response[:icon_emoji] = ENV["BOT_ICON"] unless ENV["BOT_ICON"].nil?
-  response[:channel_name] = ENV["CHANNEL"] unless ENV["CHANNEL"].nil?
-  response.to_json
-  payload = "payload=#{response}"
-  puts "[LOG] [PAYLOAD] #{payload}"
-  post(webhook, body: payload)
+  puts "[LOG] [WEBHOOK] #{response}"
+  HTTParty.post(webhook, response)
+  # response.to_json
+  # payload = "payload=#{response}"
+  # puts "[LOG] [PAYLOAD] #{payload}"
+  # post(webhook, body: payload)
 end
 
 # def json_response_for_slack(reply)
