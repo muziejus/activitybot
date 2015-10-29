@@ -57,7 +57,7 @@ def post_response(reply)
   response[:username] = ENV["BOT_USERNAME"] unless ENV["BOT_USERNAME"].nil?
   response[:icon_emoji] = ENV["BOT_ICON"] unless ENV["BOT_ICON"].nil?
   puts "[LOG] [WEBHOOK] #{response}"
-  HTTParty.post(webhook, response)
+  HTTParty.post(webhook, body: response)
   # response.to_json
   # payload = "payload=#{response}"
   # puts "[LOG] [PAYLOAD] #{payload}"
