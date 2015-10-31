@@ -32,7 +32,7 @@ end
 # user_id=U123456
 # user_name=Steve
 # text=trebekbot jeopardy me
-# trigger_word=trebekbot
+# trigger_word=
 # 
 post "/" do
   @params = params
@@ -44,35 +44,20 @@ post "/" do
     response = ""
   end
   status 200
-  # body json_response_for_slack(response)
   unless response == "" || response == nil
     post_response(response)
   end
 end
 
 # Puts together the json payload that needs to be sent back to Slack
-# 
 
 def post_response(reply)
-  webhook = ENV["WEBHOOK_URL"] unless ENV["WEBHOOK_URL"].nil?
   response = { text: reply, link_names: 1 }
   response[:username] = ENV["BOT_USERNAME"] unless ENV["BOT_USERNAME"].nil?
   response[:icon_emoji] = ENV["BOT_ICON"] unless ENV["BOT_ICON"].nil?
   puts "[LOG] [WEBHOOK] #{response}"
-  HTTParty.post(webhook, body: response.to_json)
-  # response.to_json
-  # payload = "payload=#{response}"
-  # puts "[LOG] [PAYLOAD] #{payload}"
-  # post(webhook, body: payload)
+  HTTParty.post(ENV["WEBHOOK_URL"], body: response.to_json) # That environment variable is required.
 end
-
-# def json_response_for_slack(reply)
-#   response = { text: reply, link_names: 1 }
-#   response[:username] = ENV["BOT_USERNAME"] unless ENV["BOT_USERNAME"].nil?
-#   response[:icon_emoji] = ENV["BOT_ICON"] unless ENV["BOT_ICON"].nil?
-#   response[:channel_name] = ENV["CHANNEL"] unless ENV["CHANNEL"].nil?
-#   response.to_json
-# end
 
 def track_talk
   channel = @params[:channel_name]
@@ -90,7 +75,7 @@ def log_talk
   ENV["MINUTES"].nil? ? minutes = 2 * 60 : minutes = ENV["MINUTES"].to_i * 60
   if $redis.exists key # has someone recently spoken?
     unless $redis.sismember key, user # and are they repeating themselves?
-      puts "[LOG] [SADD] [EXPIRE] adding #{user} the list of people talking and extending time to live by #{minutes} seconds, which is a #{minutes.class}."
+      puts "[LOG] [SADD] [EXPIRE] adding #{user} the list of people talking and extending time to live by #{minutes} seconds."
       $redis.sadd key, user
       $redis.expire key, minutes # If I want the activity to be recharged when a second person speaks
       unless $redis.smembers(key).length < crowd # uh-oh, we have a crowd!
@@ -105,11 +90,7 @@ def log_talk
 end
 
 def active?(channel)
-  if $redis.exists "#{channel}:lock"
-    true
-  else
-    false
-  end
+  $redis.exists "#{channel}:lock"
 end
 
 def activate(channel)
