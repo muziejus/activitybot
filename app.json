@@ -13,8 +13,8 @@
   ],
   "success_url": "https://github.com/muziejus/activitybot#usage",
   "env": {
-    "OUTGOING_WEBHOOK_TOKEN": {
-      "description": "The token of the Slack outgoing webhook you'll use for this. Set it up at https://slack.com/services/new/outgoing-webhook. You'll have to point it to this app's URL once it's deployed.",
+    "WEBHOOK_URL": {
+      "description": "This is the *INCOMING* webhook url that has to be configured separately from the outgoing webhook that triggers the bot. See more at: https://api.slack.com/incoming-webhooks",
       "required": true
     },
     "API_TOKEN": {
@@ -22,7 +22,7 @@
       "required": true
     },
     "TRIGGER_WORD": {
-      "description": "The trigger word you set for the outgoing webhook.",
+      "description": "The trigger word you set for the outgoing webhook. If set to blank, as by default, then the bot only listens on one channel.",
       "required": true,
       "value": ""
     },
