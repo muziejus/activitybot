@@ -47,7 +47,7 @@
       "required": true,
       "value": "60"
     },
-    "ACTIVITY_MESASGE": {
+    "ACTIVITY_MESSAGE": {
       "description": "The message the bot sends when a channel is active. “<channel>” is merely a placeholder for the active channel’s real name.",
       "required": true,
       "value": "There is some activity in #<channel>’s bullpen!"
