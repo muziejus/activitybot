@@ -37,7 +37,7 @@ If both conditions are met, the bot announces in the channel configured in the
     but you can use something more clever if you like.
 
 Similarly, the bot’s announcement is saved as `ENV[ACTIVITY_MESSAGE]`, and the
-default is “There is some activity in #<channel>’s bullpen!”, where `<channel>`
+default is “There is some activity in #&lt;channel&gt;’s bullpen!”, where `<channel>`
 is later replaced with the actual name of the channel.
 
 Once the alert goes out, the bot waits `ENV[WAIT_TIME]` minutes before polling
