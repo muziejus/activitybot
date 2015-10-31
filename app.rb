@@ -114,8 +114,9 @@ end
 
 def activate(channel)
   ENV["WAIT_TIME"].nil? ? wait_time = 0 : wait_time = ENV["WAIT_TIME"].to_i * 60
+  ENV["ACTIVITY_MESSAGE"].nil? ? announcement = "There is some activity in #<channel>’s bullpen!" : announcement = ENV["ACTIVITY_MESSAGE"]
   message = "#{channel} set as active at #{Time.now}"
   $redis.setex "#{channel}:lock", wait_time, message
   puts "[LOG] [SETEX] #{message}"
-  "There is some activity in ##{channel}’s bullpen!"
+  announcement.gsub(/<channel>/, channel)
 end

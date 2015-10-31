@@ -17,10 +17,6 @@
       "description": "This is the *INCOMING* webhook url that has to be configured separately from the outgoing webhook that triggers the bot. See more at: https://api.slack.com/incoming-webhooks",
       "required": true
     },
-    "API_TOKEN": {
-      "description": "The Slack API key. Get it at https://api.slack.com/web",
-      "required": true
-    },
     "TRIGGER_WORD": {
       "description": "The trigger word you set for the outgoing webhook. If set to blank, as by default, then the bot only listens on one channel.",
       "required": true,
@@ -50,6 +46,11 @@
       "description": "How many minutes to wait before polling a channel again.",
       "required": true,
       "value": "60"
+    },
+    "ACTIVITY_MESASGE": {
+      "description": "The message the bot sends when a channel is active. “<channel>” is merely a placeholder for the active channel’s real name.",
+      "required": true,
+      "value": "There is some activity in #<channel>’s bullpen!"
     }
   }
 }
