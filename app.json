@@ -40,7 +40,7 @@
     "CHANNEL": {
       "description": "What is the channel to which the bot should announce activity.",
       "required": true,
-      "value": "#zbullpen"
+      "value": "zbullpen"
     },
     "WAIT_TIME": {
       "description": "How many minutes to wait before polling a channel again.",

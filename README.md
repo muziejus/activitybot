@@ -10,7 +10,7 @@ You'll need a [Slack](https://slack.com) account, obviously, and a free [Heroku]
 
 1. Set up a Slack outgoing webhook at https://slack.com/services/new/outgoing-webhook. Keep the trigger word blank, as you want the bot to note all conversation. This step has to be repeated for each channel you want to track, but you can ignore the separate tokens. One is sufficient.
 
-2. Set up a separate Slack *incoming* webhook at https://slack.com/services/new/incoming-webhook and pick the channel you want the Activitybot to use when posting updates. This should be a channel used for no other purpose, and it should be towards the end of the alphabet. Keep track of the webhook url Slack gives you, as that will be added to `ENV[WEBHOOK_URL]` in Heroku. Similarly, the channel you want to use will be saved as `ENV[CHANNEL]`, and the default is “#zbullpen.”
+2. Set up a separate Slack *incoming* webhook at https://slack.com/services/new/incoming-webhook and pick the channel you want the Activitybot to use when posting updates. This should be a channel used for no other purpose, and it should be towards the end of the alphabet. Keep track of the webhook url Slack gives you, as that will be added to `ENV[WEBHOOK_URL]` in Heroku. Similarly, the channel you want to use will be saved as `ENV[CHANNEL]`, and the default is “zbullpen.”
 
 3. Click this button to set up your Heroku app: [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)   
 If you'd rather do it manually, then just clone this repo, set up a Heroku app with Redis Cloud (the free level is more than enough for this), and deploy activitybot there. Make sure to set up the config variables in
@@ -33,7 +33,7 @@ high.
 If both conditions are met, the bot announces in the channel configured in the
 *incoming* webhook (also saved as `ENV[CHANNEL]`) that there is activity in a
     channel. The idea is that people who have FOMO have notifications set on on
-    the announcement channel, so they are alerted. The default is “#zbullpen,”
+    the announcement channel, so they are alerted. The default is “zbullpen,”
     but you can use something more clever if you like.
 
 Similarly, the bot’s announcement is saved as `ENV[ACTIVITY_MESSAGE]`, and the
