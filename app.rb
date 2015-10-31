@@ -45,7 +45,7 @@ post "/" do
   end
   status 200
   # body json_response_for_slack(response)
-  unless response == ""
+  unless response == "" || response == nil
     post_response(response)
   end
 end
